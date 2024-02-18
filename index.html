@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botones Parpadeantes con Sonido</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .botones {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .botones button {
+            margin-bottom: 500px;
+            width: 500px;
+            height: 500px;
+            font-size: 3rem;
+        }
+
+        #everybodydance {
+            border-radius: 100%;
+            border: none;
+            color: white;
+            font-family: Avenir, Arial, sans-serif;
+            font-weight: 900;
+            background: red;
+            text-transform: uppercase;
+            outline: none;
+            cursor: pointer;
+            text-align: center;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 0 rgb(183, 9, 0), 0 15px 20px rgba(0, 0, 0, .35);
+            text-shadow: 0 3px 1px rgba(122, 17, 8, .8);
+            transition: .4s all ease-in;
+        }
+
+
+        #everybodydance.parpadeando {
+            animation: parpadeo 0.1s ease-in-out infinite;
+        }
+
+        #everybodydance span {
+            position: relative;
+        }
+
+        @keyframes parpadeo {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.2;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="botones">
+        <button id="everybodydance" onclick="reproducirSonido(this)"><span></span></button>
+        <button id="everybodydance" onclick="reproducirSonido(this)"><span></span></button>
+    </div>
+
+    <audio id="sonido">
+        <source src="sonido.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function reproducirSonido(botonPresionado) {
+            var audio = document.getElementById('sonido');
+            audio.play();
+
+            var botones = document.querySelectorAll('.botones button');
+            botones.forEach(function (boton) {
+                if (boton !== botonPresionado) {
+                    boton.disabled = true;
+                }
+            });
+
+            setTimeout(function () {
+                botonPresionado.classList.add('parpadeando');
+                setTimeout(function () {
+                    botonPresionado.classList.remove('parpadeando');
+                    botones.forEach(function (boton) {
+                        boton.disabled = false;
+                    });
+                }, 1500);
+            }, 100);
+        }
+    </script>
+</body>
+
+</html>
